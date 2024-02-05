@@ -4,17 +4,16 @@ import com.almunia.netflix.controllers.CategoryController;
 import com.almunia.netflix.dto.CategoryDto;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.services.CategoryService;
+import com.almunia.netflix.utils.constants.CommonConstants;
+import com.almunia.netflix.utils.constants.RestConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping(RestConstants.RESOURCE_CATEGORIES)
 public class CategoryControllerImpl implements CategoryController {
 
     private final CategoryService categoryService;
@@ -27,7 +26,39 @@ public class CategoryControllerImpl implements CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<List<CategoryDto>> getAllCategories(){
-        return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), "OK",
+        return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
                 categoryService.getAllCategories());
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
+    public NetflixResponse<CategoryDto> getCategoryById(@PathVariable("id") int id) {
+        return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
+                categoryService.getCategoryById(id));
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public NetflixResponse<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
+        return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.CATEGORY_CREATED_SUCCESSFULLY,
+                categoryService.createCategory(categoryDto));
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public NetflixResponse<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto) {
+        return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.CATEGORY_UPDATED_SUCCESSFULLY,
+                categoryService.updateCategory(categoryDto));
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
+    public NetflixResponse<CategoryDto> deleteCategory(@PathVariable("id") int id) {
+        return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.CATEGORY_DELETED_SUCCESSFULLY,
+                categoryService.deleteCategory(id));
     }
 }

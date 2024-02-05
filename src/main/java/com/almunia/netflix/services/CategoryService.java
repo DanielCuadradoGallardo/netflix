@@ -5,5 +5,9 @@ import com.almunia.netflix.dto.CategoryDto;
 import java.util.List;
 
 public interface CategoryService {
-    public List<CategoryDto> getAllCategories();
+     List<CategoryDto> getAllCategories();
+     CategoryDto getCategoryById(int id);
+     CategoryDto createCategory(CategoryDto categoryDto);
+     CategoryDto updateCategory(CategoryDto categoryDto);
+     CategoryDto deleteCategory(int id);
 }
