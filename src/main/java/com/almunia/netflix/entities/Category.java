@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,5 +28,5 @@ public class Category implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<Serie> series;
+    private List<Serie> series;
 }

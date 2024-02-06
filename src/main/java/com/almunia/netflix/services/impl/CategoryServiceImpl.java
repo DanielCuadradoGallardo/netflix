@@ -32,6 +32,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public CategoryDto getCategoryByName(String name) {
+        return modelMapper.map(categoryRepository.findCategoryByName(name).orElseThrow(() -> new RuntimeException(ExceptionConstants.CATEGORY_NOT_FOUND)), CategoryDto.class);
+    }
+
+    @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
         Category category = new Category(0, categoryDto.getName(), null);
         if (categoryRepository.findCategoryByName(category.getName()).isPresent()) {
