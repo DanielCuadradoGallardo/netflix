@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,6 +18,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class Actor implements Serializable {
 
     private static final long serialVersionUID = 3409398110703416421L;
@@ -42,8 +45,8 @@ public class Actor implements Serializable {
             joinColumns=@JoinColumn(name="actor_id"),
             inverseJoinColumns = @JoinColumn(name="award_id")
     )
-    private Set<Award> awards;
+    private List<Award> awards;
 
     @ManyToMany(mappedBy = "actors")
-    private Set<Chapter> chapters;
+    private List<Chapter> chapters;
 }

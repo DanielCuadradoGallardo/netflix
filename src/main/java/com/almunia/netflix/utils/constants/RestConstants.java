@@ -7,4 +7,5 @@ public class RestConstants {
     public final static String RESOURCE_ID = "/{id}";
 
     public static final String RESOURCE_CATEGORY = "/category/{category}";
+    public static final String RESOURCE_SEASONS = "/seasons";
 }

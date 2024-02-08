@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,6 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class Serie implements Serializable {
 
     private static final long serialVersionUID = 8836005559441603468L;
@@ -38,8 +41,8 @@ public class Serie implements Serializable {
             joinColumns=@JoinColumn(name="serie_id"),
             inverseJoinColumns = @JoinColumn(name="category_id")
     )
-    private Set<Category> categories;
+    private List<Category> categories;
 
     @OneToMany(mappedBy = "serie")
-    private Set<Season> seasons;
+    private List<Season> seasons;
 }

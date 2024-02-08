@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,6 +17,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class Award implements Serializable {
 
     private static final long serialVersionUID = -674375231608295739L;
@@ -27,6 +30,5 @@ public class Award implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "awards")
-    private Set<Actor> actores;
-
+    private List<Actor> actores;
 }

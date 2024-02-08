@@ -12,6 +12,7 @@ import com.almunia.netflix.utils.constants.ExceptionConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +47,7 @@ public class SerieServiceImpl implements SerieService {
 
     @Override
     public SerieDto createSerie(SerieDto serieDto) {
-        Serie serie = new Serie(0, serieDto.getName(), serieDto.getDescription(), serieDto.getRecommended_age(), new HashSet<Category>(), new HashSet<Season>());
+        Serie serie = new Serie(0, serieDto.getName(), serieDto.getDescription(), serieDto.getRecommended_age(), new ArrayList<>(), new ArrayList<>());
         serieDto.getCategories().forEach(categoryDto -> {
             categoryDto = categoryService.getCategoryByName(categoryDto.getName());
             Category category = new Category(categoryDto.getId(), categoryDto.getName(), null);
@@ -74,10 +75,10 @@ public class SerieServiceImpl implements SerieService {
 
     @Override
     public SerieDto updateSerie(SerieDto serieDto) {
-        Serie serie = new Serie(0, serieDto.getName(), serieDto.getDescription(), 0, null, null);
+        Serie serie = new Serie(serieDto.getId(), serieDto.getName(), serieDto.getDescription(), serieDto.getRecommended_age(), null, null);
         if(serieRepository.findSerieById(serie.getId()).isPresent()){
             if (serieRepository.findSerieByName(serie.getName()).isPresent()) {
-                throw new RuntimeException(ExceptionConstants.CATEGORY_ALREADY_EXISTS);
+                throw new RuntimeException(ExceptionConstants.SERIE_ALREADY_EXISTS);
             } else {
                 return modelMapper.map(serieRepository.save(serie), SerieDto.class);
             }

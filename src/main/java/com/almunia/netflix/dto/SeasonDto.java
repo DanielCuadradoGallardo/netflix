@@ -8,20 +8,19 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SerieDto implements Serializable {
-    private static final long serialVersionUID = -9113398478880389649L;
+public class SeasonDto implements Serializable {
+
+    private static final long serialVersionUID = 340145897383734853L;
 
     private int id;
-    private String name;
+    private String title;
     private String description;
-    private int recommended_age;
-    private List<CategoryDto> categories;
-    //private List<SeasonDto> seasons;
+    private List<ChapterDto> chapters;
+    private SerieDto serie;
 }

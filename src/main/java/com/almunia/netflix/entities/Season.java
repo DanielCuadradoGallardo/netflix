@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name="seasons")
@@ -15,6 +16,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class Season implements Serializable {
 
 
@@ -35,5 +37,5 @@ public class Season implements Serializable {
     private Serie serie;
 
     @OneToMany(mappedBy = "season")
-    private Set<Chapter> chapters;
+    private List<Chapter> chapters;
 }

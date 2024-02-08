@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,6 +18,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class Chapter implements Serializable {
 
 
@@ -31,10 +35,10 @@ public class Chapter implements Serializable {
     private String description;
 
     @Column(name="duration")
-    private String duration;
+    private int duration;
 
     @Column(name="release_date")
-    private String release_date;
+    private LocalDate release_date;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -42,7 +46,7 @@ public class Chapter implements Serializable {
             joinColumns=@JoinColumn(name="chapter_id"),
             inverseJoinColumns = @JoinColumn(name="actor_id")
     )
-    private Set<Actor> actors;
+    private List<Actor> actors;
 
     @ManyToOne
     @JoinColumn(name="season_id", referencedColumnName = "id")

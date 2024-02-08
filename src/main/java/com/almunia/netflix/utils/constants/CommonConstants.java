@@ -10,4 +10,7 @@ public class CommonConstants {
     public static final String SERIE_DELETED_SUCCESSFULLY = "Serie deleted successfully";
     public static final String SERIE_UPDATED_SUCCESSFULLY = "Serie updated successfully";
     public static final String SERIE_CREATED_SUCCESSFULLY = "Serie created successfully";
+    public static final String SEASON_CREATED_SUCCESSFULLY = "Season created successfully";
+    public static final String SEASON_UPDATED_SUCCESSFULLY = "Season updated successfully";
+    public static final String SEASON_DELETED_SUCCESSFULLY = "Season deleted successfully";
 }

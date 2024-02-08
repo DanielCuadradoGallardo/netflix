@@ -7,21 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDate;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SerieDto implements Serializable {
-    private static final long serialVersionUID = -9113398478880389649L;
+public class ActorDto implements Serializable {
+
+    private static final long serialVersionUID = 2319110079797093034L;
 
     private int id;
     private String name;
-    private String description;
-    private int recommended_age;
-    private List<CategoryDto> categories;
-    //private List<SeasonDto> seasons;
+    private String surname;
+    private LocalDate birth_date;
+    private String birth_place;
+    private String biography;
 }
