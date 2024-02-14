@@ -13,9 +13,9 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto implements Serializable {
+public class AwardDto implements Serializable {
 
-    private static final long serialVersionUID = 7733135176433915659L;
+    private static final long serialVersionUID = 2366259714695662378L;
 
     private int id;
     private String name;

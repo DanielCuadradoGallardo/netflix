@@ -1,19 +1,19 @@
 package com.almunia.netflix.services.impl;
 
+import com.almunia.netflix.dto.SeasonDto;
 import com.almunia.netflix.dto.SerieDto;
 import com.almunia.netflix.entities.Category;
 import com.almunia.netflix.entities.Season;
 import com.almunia.netflix.entities.Serie;
-import com.almunia.netflix.repositories.SeasonRepository;
 import com.almunia.netflix.repositories.SerieRepository;
 import com.almunia.netflix.services.CategoryService;
+import com.almunia.netflix.services.SeasonService;
 import com.almunia.netflix.services.SerieService;
 import com.almunia.netflix.utils.constants.ExceptionConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +21,14 @@ import java.util.stream.Collectors;
 public class SerieServiceImpl implements SerieService {
     private final SerieRepository serieRepository;
     private final CategoryService categoryService;
+    private final SeasonService seasonService;
 
     private final ModelMapper modelMapper;
 
-    public SerieServiceImpl(final SerieRepository serieRepository, final SeasonRepository seasonRepository, final CategoryService categoryService) {
+    public SerieServiceImpl(final SerieRepository serieRepository, final SeasonService seasonService, final CategoryService categoryService) {
         this.serieRepository = serieRepository;
         this.categoryService = categoryService;
+        this.seasonService = seasonService;
         modelMapper = new ModelMapper();
     }
 
@@ -59,19 +61,6 @@ public class SerieServiceImpl implements SerieService {
             return modelMapper.map(serieRepository.save(serie), SerieDto.class);
         }
     }
-
-    /*
-    @Override
-    public SerieDto addSeasonToSerie(int id, int seasonId) {
-        Serie serie = serieRepository.findSerieById(id).orElse(null);
-        if(serie != null){
-            serie.getSeasons().add(seasonRepository.findSeasonById(seasonId).orElse(null));
-            return modelMapper.map(serieRepository.save(serie), SerieDto.class);
-        }else{
-            throw new RuntimeException(ExceptionConstants.SERIE_NOT_FOUND);
-        }
-    }
-    */
 
     @Override
     public SerieDto updateSerie(SerieDto serieDto) {

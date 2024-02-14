@@ -1,6 +1,7 @@
 package com.almunia.netflix.controllers.impl;
 
 import com.almunia.netflix.controllers.SerieController;
+import com.almunia.netflix.dto.SeasonDto;
 import com.almunia.netflix.dto.SerieDto;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.services.SerieService;

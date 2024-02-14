@@ -10,8 +10,8 @@ import java.util.List;
 public interface SeasonController {
 
     NetflixResponse<List<SeasonDto>> getAllSeasons();
-    NetflixResponse<SeasonDto> getSeasonById(@PathVariable("id") int id);
-    NetflixResponse<SeasonDto> createSeasons(@RequestBody SeasonDto seasonDto);
-    NetflixResponse<SeasonDto> updateSeason(@RequestBody SeasonDto seasonDto);
-    NetflixResponse<SeasonDto> deleteSeason(@PathVariable("id") int id);
+    NetflixResponse<SeasonDto> getSeasonById(int id);
+    NetflixResponse<SeasonDto> createSeasons(SeasonDto seasonDto);
+    NetflixResponse<SeasonDto> updateSeason(SeasonDto seasonDto);
+    NetflixResponse<SeasonDto> deleteSeason(int id);
 }

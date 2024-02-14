@@ -12,8 +12,6 @@ public interface SerieService {
 
     SerieDto createSerie(SerieDto serieDto);
 
-    //SerieDto addSeasonToSerie(int id, int seasonId);
-
     SerieDto updateSerie(SerieDto serieDto);
     SerieDto deleteSerie(int id);
 }

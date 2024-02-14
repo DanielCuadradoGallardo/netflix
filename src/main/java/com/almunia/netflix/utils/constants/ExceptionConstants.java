@@ -7,4 +7,6 @@ public class ExceptionConstants {
     public final static String SERIE_NOT_FOUND = "Serie not found";
     public static final String SEASON_NOT_FOUND = "Season not found";
     public static final String SEASON_ALREADY_EXISTS = "Season already exists";
+    public static final String AWARD_NOT_FOUND = "Award not found";
+    public static final String AWARD_ALREADY_EXISTS = "Award already exists";
 }

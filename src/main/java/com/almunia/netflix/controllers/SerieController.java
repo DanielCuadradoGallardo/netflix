@@ -1,5 +1,6 @@
 package com.almunia.netflix.controllers;
 
+import com.almunia.netflix.dto.SeasonDto;
 import com.almunia.netflix.dto.SerieDto;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.utils.constants.RestConstants;
@@ -16,9 +17,7 @@ public interface SerieController {
 
     NetflixResponse<SerieDto> getSerieById(int id);
 
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value = RestConstants.RESOURCE_CATEGORY, produces = MediaType.APPLICATION_JSON_VALUE)
-    NetflixResponse<List<SerieDto>> getSeriesByCategory(@PathVariable("category") String categoryName);
+    NetflixResponse<List<SerieDto>> getSeriesByCategory(String categoryName);
 
     NetflixResponse<SerieDto> createSerie(SerieDto serieDto);
 

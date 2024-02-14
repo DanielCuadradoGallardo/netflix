@@ -13,4 +13,7 @@ public class CommonConstants {
     public static final String SEASON_CREATED_SUCCESSFULLY = "Season created successfully";
     public static final String SEASON_UPDATED_SUCCESSFULLY = "Season updated successfully";
     public static final String SEASON_DELETED_SUCCESSFULLY = "Season deleted successfully";
+    public static final String AWARD_CREATED_SUCCESSFULLY = "Award created successfully";
+    public static final String AWARD_UPDATED_SUCCESSFULLY = "Award updated successfully";
+    public static final String AWARD_DELETED_SUCCESSFULLY = "Award deleted successfully";
 }
