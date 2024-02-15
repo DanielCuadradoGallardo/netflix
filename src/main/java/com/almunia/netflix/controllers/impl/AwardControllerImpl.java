@@ -8,6 +8,7 @@ import com.almunia.netflix.utils.constants.CommonConstants;
 import com.almunia.netflix.utils.constants.RestConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class AwardControllerImpl implements AwardController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<List<AwardDto>> getAllAwards(){
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
@@ -33,6 +35,7 @@ public class AwardControllerImpl implements AwardController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<AwardDto> getAwardById(@PathVariable("id") int id) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
@@ -41,6 +44,7 @@ public class AwardControllerImpl implements AwardController {
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<AwardDto> createAward(@RequestBody AwardDto awardDto) {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.AWARD_CREATED_SUCCESSFULLY,
@@ -49,6 +53,7 @@ public class AwardControllerImpl implements AwardController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<AwardDto> updateAward(@RequestBody AwardDto awardDto) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.AWARD_UPDATED_SUCCESSFULLY,
@@ -57,6 +62,7 @@ public class AwardControllerImpl implements AwardController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<AwardDto> deleteAward(@PathVariable("id") int id) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.AWARD_DELETED_SUCCESSFULLY,

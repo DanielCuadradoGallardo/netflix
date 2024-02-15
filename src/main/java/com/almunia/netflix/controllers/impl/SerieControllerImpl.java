@@ -8,6 +8,7 @@ import com.almunia.netflix.utils.constants.CommonConstants;
 import com.almunia.netflix.utils.constants.RestConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class SerieControllerImpl implements SerieController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<List<SerieDto>> getAllSeries(){
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
@@ -32,6 +34,7 @@ public class SerieControllerImpl implements SerieController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<SerieDto> getSerieById(@PathVariable("id") int id) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
@@ -40,6 +43,7 @@ public class SerieControllerImpl implements SerieController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_CATEGORY, produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<List<SerieDto>> getSeriesByCategory(@PathVariable("category") String categoryName) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
@@ -48,6 +52,7 @@ public class SerieControllerImpl implements SerieController {
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<SerieDto> createSerie(@RequestBody SerieDto serieDto) {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.SERIE_CREATED_SUCCESSFULLY,
@@ -56,6 +61,7 @@ public class SerieControllerImpl implements SerieController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<SerieDto> updateSerie(@RequestBody SerieDto serieDto) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.SERIE_UPDATED_SUCCESSFULLY,
@@ -64,6 +70,7 @@ public class SerieControllerImpl implements SerieController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<SerieDto> deleteSerie(@PathVariable("id") int id) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.SERIE_DELETED_SUCCESSFULLY,

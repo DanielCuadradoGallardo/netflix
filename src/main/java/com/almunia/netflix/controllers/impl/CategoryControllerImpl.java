@@ -35,6 +35,7 @@ public class CategoryControllerImpl implements CategoryController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<CategoryDto> getCategoryById(@PathVariable("id") int id) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
@@ -43,6 +44,7 @@ public class CategoryControllerImpl implements CategoryController {
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.CATEGORY_CREATED_SUCCESSFULLY,
@@ -51,6 +53,7 @@ public class CategoryControllerImpl implements CategoryController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.CATEGORY_UPDATED_SUCCESSFULLY,
@@ -59,6 +62,7 @@ public class CategoryControllerImpl implements CategoryController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<CategoryDto> deleteCategory(@PathVariable("id") int id) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.CATEGORY_DELETED_SUCCESSFULLY,

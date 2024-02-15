@@ -19,4 +19,7 @@ public class CommonConstants {
     public static final String CHAPTER_CREATED_SUCCESSFULLY = "Chapter created successfully";
     public static final String CHAPTER_UPDATED_SUCCESSFULLY = "Chapter updated successfully";
     public static final String CHAPTER_DELETED_SUCCESSFULLY = "Chapter deleted successfully";
+    public static final String ACTOR_CREATED_SUCCESSFULLY = "Actor created successfully";
+    public static final String ACTOR_UPDATED_SUCCESSFULLY = "Actor updated successfully";
+    public static final String ACTOR_DELETED_SUCCESSFULLY = "Actor deleted successfully";
 }

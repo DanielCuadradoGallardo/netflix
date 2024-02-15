@@ -11,4 +11,6 @@ public class ExceptionConstants {
     public static final String AWARD_ALREADY_EXISTS = "Award already exists";
     public static final String CHAPTER_ALREADY_EXISTS = "Chapter already exists";
     public static final String CHAPTER_NOT_FOUND = "Chapter not found";
+    public static final String ACTOR_ALREADY_EXISTS = "Actor already exists";
+    public static final String ACTOR_NOT_FOUND = "Actor not found";
 }

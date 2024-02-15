@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SerieDto implements Serializable {
+
     private static final long serialVersionUID = -9113398478880389649L;
 
     private int id;
