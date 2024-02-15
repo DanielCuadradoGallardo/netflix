@@ -8,11 +8,13 @@ import com.almunia.netflix.utils.constants.CommonConstants;
 import com.almunia.netflix.utils.constants.RestConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(RestConstants.RESOURCE_CATEGORIES)
 public class CategoryControllerImpl implements CategoryController {
 
@@ -24,6 +26,7 @@ public class CategoryControllerImpl implements CategoryController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<List<CategoryDto>> getAllCategories(){
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,

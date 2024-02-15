@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(RestConstants.RESOURCE_CATEGORIES)
+@CrossOrigin
+@RequestMapping(RestConstants.RESOURCE_AWARDS)
 public class AwardControllerImpl implements AwardController {
 
     private final AwardService awardService;

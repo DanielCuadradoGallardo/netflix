@@ -1,7 +1,6 @@
 package com.almunia.netflix.controllers.impl;
 
 import com.almunia.netflix.controllers.SerieController;
-import com.almunia.netflix.dto.SeasonDto;
 import com.almunia.netflix.dto.SerieDto;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.services.SerieService;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(RestConstants.RESOURCE_SERIES)
 public class SerieControllerImpl implements SerieController {
     private final SerieService serieService;

@@ -1,13 +1,10 @@
 package com.almunia.netflix.services.impl;
 
-import com.almunia.netflix.dto.SeasonDto;
 import com.almunia.netflix.dto.SerieDto;
 import com.almunia.netflix.entities.Category;
-import com.almunia.netflix.entities.Season;
 import com.almunia.netflix.entities.Serie;
 import com.almunia.netflix.repositories.SerieRepository;
 import com.almunia.netflix.services.CategoryService;
-import com.almunia.netflix.services.SeasonService;
 import com.almunia.netflix.services.SerieService;
 import com.almunia.netflix.utils.constants.ExceptionConstants;
 import org.modelmapper.ModelMapper;
@@ -21,14 +18,12 @@ import java.util.stream.Collectors;
 public class SerieServiceImpl implements SerieService {
     private final SerieRepository serieRepository;
     private final CategoryService categoryService;
-    private final SeasonService seasonService;
 
     private final ModelMapper modelMapper;
 
-    public SerieServiceImpl(final SerieRepository serieRepository, final SeasonService seasonService, final CategoryService categoryService) {
+    public SerieServiceImpl(final SerieRepository serieRepository, final CategoryService categoryService) {
         this.serieRepository = serieRepository;
         this.categoryService = categoryService;
-        this.seasonService = seasonService;
         modelMapper = new ModelMapper();
     }
 

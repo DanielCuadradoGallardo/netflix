@@ -10,7 +10,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name="actors")

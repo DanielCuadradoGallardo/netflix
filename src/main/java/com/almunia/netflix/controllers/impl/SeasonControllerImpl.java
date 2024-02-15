@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(RestConstants.RESOURCE_SEASONS)
 public class SeasonControllerImpl implements SeasonController{
 
