@@ -26,4 +26,5 @@ public class ChapterDto implements Serializable {
     private int duration;
     private LocalDate release_date;
     private List<ActorDto> actors;
+    private SeasonDto season;
 }

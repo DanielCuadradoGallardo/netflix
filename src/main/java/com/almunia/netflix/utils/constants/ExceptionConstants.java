@@ -9,4 +9,6 @@ public class ExceptionConstants {
     public static final String SEASON_ALREADY_EXISTS = "Season already exists";
     public static final String AWARD_NOT_FOUND = "Award not found";
     public static final String AWARD_ALREADY_EXISTS = "Award already exists";
+    public static final String CHAPTER_ALREADY_EXISTS = "Chapter already exists";
+    public static final String CHAPTER_NOT_FOUND = "Chapter not found";
 }

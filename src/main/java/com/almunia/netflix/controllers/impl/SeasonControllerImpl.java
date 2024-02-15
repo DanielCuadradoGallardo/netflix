@@ -41,7 +41,7 @@ public class SeasonControllerImpl implements SeasonController{
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SeasonDto> createSeasons(@RequestBody SeasonDto seasonDto) {
+    public NetflixResponse<SeasonDto> createSeason(@RequestBody SeasonDto seasonDto) {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.SEASON_CREATED_SUCCESSFULLY,
                 seasonService.createSeason(seasonDto));
     }

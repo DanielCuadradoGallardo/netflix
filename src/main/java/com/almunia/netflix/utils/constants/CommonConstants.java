@@ -16,4 +16,7 @@ public class CommonConstants {
     public static final String AWARD_CREATED_SUCCESSFULLY = "Award created successfully";
     public static final String AWARD_UPDATED_SUCCESSFULLY = "Award updated successfully";
     public static final String AWARD_DELETED_SUCCESSFULLY = "Award deleted successfully";
+    public static final String CHAPTER_CREATED_SUCCESSFULLY = "Chapter created successfully";
+    public static final String CHAPTER_UPDATED_SUCCESSFULLY = "Chapter updated successfully";
+    public static final String CHAPTER_DELETED_SUCCESSFULLY = "Chapter deleted successfully";
 }

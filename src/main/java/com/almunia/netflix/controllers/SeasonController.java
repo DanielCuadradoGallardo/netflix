@@ -11,7 +11,7 @@ public interface SeasonController {
 
     NetflixResponse<List<SeasonDto>> getAllSeasons();
     NetflixResponse<SeasonDto> getSeasonById(int id);
-    NetflixResponse<SeasonDto> createSeasons(SeasonDto seasonDto);
+    NetflixResponse<SeasonDto> createSeason(SeasonDto seasonDto);
     NetflixResponse<SeasonDto> updateSeason(SeasonDto seasonDto);
     NetflixResponse<SeasonDto> deleteSeason(int id);
 }

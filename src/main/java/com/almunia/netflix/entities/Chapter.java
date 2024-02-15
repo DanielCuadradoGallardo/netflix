@@ -40,6 +40,10 @@ public class Chapter implements Serializable {
     @Column(name="release_date")
     private LocalDate release_date;
 
+    @ManyToOne
+    @JoinColumn(name="season_id", referencedColumnName = "id")
+    private Season season;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="chapters_actors",
@@ -47,8 +51,4 @@ public class Chapter implements Serializable {
             inverseJoinColumns = @JoinColumn(name="actor_id")
     )
     private List<Actor> actors;
-
-    @ManyToOne
-    @JoinColumn(name="season_id", referencedColumnName = "id")
-    private Season season;
 }
