@@ -1,5 +1,6 @@
 package com.almunia.netflix.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,11 +15,12 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AwardDto implements Serializable {
+public class ErrorDto implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 2366259714695662378L;
+    private static final long serialVersionUID = 6346366905137179301L;
 
-    private int id;
     private String name;
+    private String value;
+
 }

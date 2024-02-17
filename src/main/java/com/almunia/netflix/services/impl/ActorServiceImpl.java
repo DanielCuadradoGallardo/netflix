@@ -2,6 +2,8 @@ package com.almunia.netflix.services.impl;
 
 import com.almunia.netflix.dto.ActorDto;
 import com.almunia.netflix.entities.Actor;
+import com.almunia.netflix.exceptions.NetflixException;
+import com.almunia.netflix.exceptions.NotFoundException;
 import com.almunia.netflix.repositories.ActorRepository;
 import com.almunia.netflix.services.ActorService;
 import com.almunia.netflix.utils.constants.ExceptionConstants;
@@ -47,7 +49,7 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public ActorDto updateActor(ActorDto actorDto) {
+    public ActorDto updateActor(ActorDto actorDto) throws NetflixException{
         Actor actor = new Actor(0, actorDto.getName(), actorDto.getBirth_date(), actorDto.getBirth_place(), actorDto.getBiography(), null, null);
         if(actorRepository.findActorById(actor.getId()).isPresent()){
             if (actorRepository.findActorByName(actor.getName()).isPresent()) {
@@ -56,7 +58,7 @@ public class ActorServiceImpl implements ActorService {
                 return modelMapper.map(actorRepository.save(actor), ActorDto.class);
             }
         }else{
-            throw new RuntimeException(ExceptionConstants.ACTOR_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.ACTOR_NOT_FOUND);
         }
     }
 

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 @DynamicUpdate
 public class Chapter implements Serializable {
 
-
+    @Serial
     private static final long serialVersionUID = 1168360098449385600L;
 
     @Id

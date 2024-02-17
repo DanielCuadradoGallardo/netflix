@@ -1,7 +1,7 @@
 package com.almunia.netflix.repositories;
 
-import com.almunia.netflix.entities.ERole;
 import com.almunia.netflix.entities.Role;
+import com.almunia.netflix.enums.ERole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

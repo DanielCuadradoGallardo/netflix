@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ChapterDto implements Serializable {
 
-
+    @Serial
     private static final long serialVersionUID = -3858655192913199595L;
 
     private int id;
