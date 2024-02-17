@@ -1,4 +1,4 @@
-package com.almunia.netflix.entities;
+package com.almunia.netflix.enums;
 
 public enum ERole {
   ROLE_USER,

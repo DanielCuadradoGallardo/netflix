@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @DynamicUpdate
 public class Award implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -674375231608295739L;
 
     @Id

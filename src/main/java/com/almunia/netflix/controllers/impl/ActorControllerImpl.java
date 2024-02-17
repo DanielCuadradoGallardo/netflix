@@ -2,6 +2,7 @@ package com.almunia.netflix.controllers.impl;
 
 import com.almunia.netflix.controllers.ActorController;
 import com.almunia.netflix.dto.ActorDto;
+import com.almunia.netflix.exceptions.NetflixException;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.services.ActorService;
 import com.almunia.netflix.utils.constants.CommonConstants;
@@ -26,7 +27,7 @@ public class ActorControllerImpl implements ActorController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<List<ActorDto>> getAllActors(){
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
@@ -35,7 +36,7 @@ public class ActorControllerImpl implements ActorController {
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
     public NetflixResponse<ActorDto> getActorById(@PathVariable("id") int id) {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
@@ -55,7 +56,7 @@ public class ActorControllerImpl implements ActorController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<ActorDto> updateActor(@RequestBody ActorDto actorDto) {
+    public NetflixResponse<ActorDto> updateActor(@RequestBody ActorDto actorDto) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.ACTOR_UPDATED_SUCCESSFULLY,
                 actorService.updateActor(actorDto));
     }
