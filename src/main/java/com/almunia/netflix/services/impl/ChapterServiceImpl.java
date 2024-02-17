@@ -4,6 +4,9 @@ import com.almunia.netflix.dto.ChapterDto;
 import com.almunia.netflix.dto.SeasonDto;
 import com.almunia.netflix.entities.Chapter;
 import com.almunia.netflix.entities.Season;
+import com.almunia.netflix.exceptions.AlreadyExistsException;
+import com.almunia.netflix.exceptions.NetflixException;
+import com.almunia.netflix.exceptions.NotFoundException;
 import com.almunia.netflix.repositories.ChapterRepository;
 import com.almunia.netflix.services.ChapterService;
 import com.almunia.netflix.services.SeasonService;
@@ -33,12 +36,12 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
-    public ChapterDto getChapterById(int id) {
-        return modelMapper.map(chapterRepository.findById(id).orElse(null), ChapterDto.class);
+    public ChapterDto getChapterById(int id) throws NetflixException {
+        return modelMapper.map(chapterRepository.findById(id).orElseThrow(() -> new NotFoundException(ExceptionConstants.CHAPTER_NOT_FOUND)), ChapterDto.class);
     }
 
     @Override
-    public ChapterDto createChapter(ChapterDto chapterDto) {
+    public ChapterDto createChapter(ChapterDto chapterDto) throws NetflixException {
         SeasonDto seasonDto = seasonService.getSeasonById(chapterDto.getSeason().getId());
 
         Season season = new Season(seasonDto.getId(), seasonDto.getTitle(), seasonDto.getDescription(), null, null);
@@ -46,27 +49,14 @@ public class ChapterServiceImpl implements ChapterService {
         Chapter chapter = new Chapter(chapterDto.getId(), chapterDto.getTitle(), chapterDto.getDescription(), chapterDto.getDuration(), chapterDto.getRelease_date(), season, null);
 
         if (chapterRepository.findChapterBySeasonTitleAndTitle(chapter.getSeason().getTitle(), chapter.getTitle()).isPresent()) {
-            throw new RuntimeException(ExceptionConstants.CHAPTER_ALREADY_EXISTS);
+            throw new AlreadyExistsException(ExceptionConstants.CHAPTER_ALREADY_EXISTS);
         } else {
             return modelMapper.map(chapterRepository.save(chapter), ChapterDto.class);
         }
     }
 
     @Override
-    public ChapterDto deleteChapter(int id) {
-        Chapter chapter = chapterRepository.findChapterById(id).orElse(null);
-        if(chapter != null){
-            chapter.setSeason(null);
-            chapter.setActors(null);
-            chapterRepository.delete(chapter);
-            return modelMapper.map(chapter, ChapterDto.class);
-        }else{
-            throw new RuntimeException(ExceptionConstants.CHAPTER_NOT_FOUND);
-        }
-    }
-
-    @Override
-    public ChapterDto updateChapter(ChapterDto chapterDto) {
+    public ChapterDto updateChapter(ChapterDto chapterDto) throws NetflixException {
         Chapter chapter = new Chapter(chapterDto.getId(), chapterDto.getTitle(), chapterDto.getDescription(), chapterDto.getDuration(), chapterDto.getRelease_date(), null, null);
         Chapter chapterToUpdate = chapterRepository.findChapterById(chapter.getId()).orElse(null);
 
@@ -74,7 +64,7 @@ public class ChapterServiceImpl implements ChapterService {
             chapter.setSeason(chapterToUpdate.getSeason());
 
             if (chapterRepository.findChapterBySeason_idAndTitle(chapter.getSeason().getId(), chapter.getTitle()).isPresent()) {
-                throw new RuntimeException(ExceptionConstants.CHAPTER_ALREADY_EXISTS);
+                throw new AlreadyExistsException(ExceptionConstants.CHAPTER_ALREADY_EXISTS);
             } else {
                 if (chapter.getTitle() == null || chapter.getTitle().isEmpty()) {
                     chapter.setTitle(chapterToUpdate.getTitle());
@@ -89,7 +79,21 @@ public class ChapterServiceImpl implements ChapterService {
                 return modelMapper.map(savedChapter, ChapterDto.class);
             }
         }else{
-            throw new RuntimeException(ExceptionConstants.CHAPTER_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.CHAPTER_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public ChapterDto deleteChapter(int id) throws NetflixException {
+        Chapter chapter = chapterRepository.findChapterById(id).orElse(null);
+        if(chapter != null){
+            chapter.setActors(null);
+            Season season = chapter.getSeason();
+            chapterRepository.delete(chapter);
+            season.getChapters().remove(chapter);
+            return modelMapper.map(chapter, ChapterDto.class);
+        }else{
+            throw new NotFoundException(ExceptionConstants.CHAPTER_NOT_FOUND);
         }
     }
 }

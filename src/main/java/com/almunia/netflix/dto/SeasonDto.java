@@ -23,6 +23,5 @@ public class SeasonDto implements Serializable {
     private int id;
     private String title;
     private String description;
-    private List<ChapterDto> chapters;
     private SerieDto serie;
 }

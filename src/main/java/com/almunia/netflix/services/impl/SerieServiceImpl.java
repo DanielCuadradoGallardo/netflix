@@ -1,8 +1,12 @@
 package com.almunia.netflix.services.impl;
 
+import com.almunia.netflix.dto.CategoryDto;
 import com.almunia.netflix.dto.SerieDto;
 import com.almunia.netflix.entities.Category;
 import com.almunia.netflix.entities.Serie;
+import com.almunia.netflix.exceptions.AlreadyExistsException;
+import com.almunia.netflix.exceptions.NetflixException;
+import com.almunia.netflix.exceptions.NotFoundException;
 import com.almunia.netflix.repositories.SerieRepository;
 import com.almunia.netflix.services.CategoryService;
 import com.almunia.netflix.services.SerieService;
@@ -33,8 +37,8 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public SerieDto getSerieById(int id) {
-        return modelMapper.map(serieRepository.findById(id).orElseThrow(() -> new RuntimeException(ExceptionConstants.SERIE_NOT_FOUND)), SerieDto.class);
+    public SerieDto getSerieById(int id) throws NetflixException {
+        return modelMapper.map(serieRepository.findById(id).orElseThrow(() -> new NotFoundException(ExceptionConstants.SERIE_NOT_FOUND)), SerieDto.class);
     }
 
     @Override
@@ -43,42 +47,43 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public SerieDto createSerie(SerieDto serieDto) {
+    public SerieDto createSerie(SerieDto serieDto) throws NetflixException {
         Serie serie = new Serie(0, serieDto.getName(), serieDto.getDescription(), serieDto.getRecommended_age(), new ArrayList<>(), new ArrayList<>());
-        serieDto.getCategories().forEach(categoryDto -> {
+        for (CategoryDto categoryDto : serieDto.getCategories()) {
             categoryDto = categoryService.getCategoryByName(categoryDto.getName());
             Category category = new Category(categoryDto.getId(), categoryDto.getName(), null);
             serie.getCategories().add(category);
-        });
+        }
         if (serieRepository.findSerieByName(serie.getName()).isPresent()) {
-            throw new RuntimeException(ExceptionConstants.SERIE_ALREADY_EXISTS);
+            throw new AlreadyExistsException(ExceptionConstants.SERIE_ALREADY_EXISTS);
         } else {
             return modelMapper.map(serieRepository.save(serie), SerieDto.class);
         }
     }
 
     @Override
-    public SerieDto updateSerie(SerieDto serieDto) {
+    public SerieDto updateSerie(SerieDto serieDto) throws NetflixException {
         Serie serie = new Serie(serieDto.getId(), serieDto.getName(), serieDto.getDescription(), serieDto.getRecommended_age(), null, null);
         if(serieRepository.findSerieById(serie.getId()).isPresent()){
             if (serieRepository.findSerieByName(serie.getName()).isPresent()) {
-                throw new RuntimeException(ExceptionConstants.SERIE_ALREADY_EXISTS);
+                throw new AlreadyExistsException(ExceptionConstants.SERIE_ALREADY_EXISTS);
             } else {
                 return modelMapper.map(serieRepository.save(serie), SerieDto.class);
             }
         }else{
-            throw new RuntimeException(ExceptionConstants.SERIE_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.SERIE_NOT_FOUND);
         }
     }
 
     @Override
-    public SerieDto deleteSerie(int id) {
+    public SerieDto deleteSerie(int id) throws NetflixException {
         Serie serie = serieRepository.findSerieById(id).orElse(null);
         if(serie != null){
+            serie.setCategories(null);
             serieRepository.delete(serie);
             return modelMapper.map(serie, SerieDto.class);
         }else{
-            throw new RuntimeException(ExceptionConstants.SERIE_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.SERIE_NOT_FOUND);
         }
     }
 }

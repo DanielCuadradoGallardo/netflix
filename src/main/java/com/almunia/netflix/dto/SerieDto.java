@@ -25,5 +25,4 @@ public class SerieDto implements Serializable {
     private String description;
     private int recommended_age;
     private List<CategoryDto> categories;
-    //private List<SeasonDto> seasons;
 }

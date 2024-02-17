@@ -2,6 +2,7 @@ package com.almunia.netflix.controllers.impl;
 
 import com.almunia.netflix.controllers.CategoryController;
 import com.almunia.netflix.dto.CategoryDto;
+import com.almunia.netflix.exceptions.NetflixException;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.services.CategoryService;
 import com.almunia.netflix.utils.constants.CommonConstants;
@@ -37,7 +38,7 @@ public class CategoryControllerImpl implements CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<CategoryDto> getCategoryById(@PathVariable("id") int id) {
+    public NetflixResponse<CategoryDto> getCategoryById(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
                 categoryService.getCategoryById(id));
     }
@@ -46,7 +47,7 @@ public class CategoryControllerImpl implements CategoryController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) {
+    public NetflixResponse<CategoryDto> createCategory(@RequestBody CategoryDto categoryDto) throws NetflixException {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.CATEGORY_CREATED_SUCCESSFULLY,
                 categoryService.createCategory(categoryDto));
     }
@@ -55,7 +56,7 @@ public class CategoryControllerImpl implements CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto) {
+    public NetflixResponse<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.CATEGORY_UPDATED_SUCCESSFULLY,
                 categoryService.updateCategory(categoryDto));
     }
@@ -64,7 +65,7 @@ public class CategoryControllerImpl implements CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<CategoryDto> deleteCategory(@PathVariable("id") int id) {
+    public NetflixResponse<CategoryDto> deleteCategory(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.CATEGORY_DELETED_SUCCESSFULLY,
                 categoryService.deleteCategory(id));
     }

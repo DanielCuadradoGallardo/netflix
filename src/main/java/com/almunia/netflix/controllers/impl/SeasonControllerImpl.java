@@ -2,6 +2,7 @@ package com.almunia.netflix.controllers.impl;
 
 import com.almunia.netflix.controllers.SeasonController;
 import com.almunia.netflix.dto.SeasonDto;
+import com.almunia.netflix.exceptions.NetflixException;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.services.SeasonService;
 import com.almunia.netflix.utils.constants.CommonConstants;
@@ -37,7 +38,7 @@ public class SeasonControllerImpl implements SeasonController{
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SeasonDto> getSeasonById(@PathVariable("id") int id) {
+    public NetflixResponse<SeasonDto> getSeasonById(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
                 seasonService.getSeasonById(id));
     }
@@ -46,7 +47,7 @@ public class SeasonControllerImpl implements SeasonController{
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SeasonDto> createSeason(@RequestBody SeasonDto seasonDto) {
+    public NetflixResponse<SeasonDto> createSeason(@RequestBody SeasonDto seasonDto) throws NetflixException {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.SEASON_CREATED_SUCCESSFULLY,
                 seasonService.createSeason(seasonDto));
     }
@@ -55,7 +56,7 @@ public class SeasonControllerImpl implements SeasonController{
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SeasonDto> updateSeason(@RequestBody SeasonDto seasonDto) {
+    public NetflixResponse<SeasonDto> updateSeason(@RequestBody SeasonDto seasonDto) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.SEASON_UPDATED_SUCCESSFULLY,
                 seasonService.updateSeason(seasonDto));
     }
@@ -64,7 +65,7 @@ public class SeasonControllerImpl implements SeasonController{
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SeasonDto> deleteSeason(@PathVariable("id") int id) {
+    public NetflixResponse<SeasonDto> deleteSeason(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.SEASON_DELETED_SUCCESSFULLY,
                 seasonService.deleteSeason(id));
     }

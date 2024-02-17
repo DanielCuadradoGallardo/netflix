@@ -2,6 +2,7 @@ package com.almunia.netflix.controllers.impl;
 
 import com.almunia.netflix.controllers.SerieController;
 import com.almunia.netflix.dto.SerieDto;
+import com.almunia.netflix.exceptions.NetflixException;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.services.SerieService;
 import com.almunia.netflix.utils.constants.CommonConstants;
@@ -36,7 +37,7 @@ public class SerieControllerImpl implements SerieController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SerieDto> getSerieById(@PathVariable("id") int id) {
+    public NetflixResponse<SerieDto> getSerieById(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
                 serieService.getSerieById(id));
     }
@@ -54,7 +55,7 @@ public class SerieControllerImpl implements SerieController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SerieDto> createSerie(@RequestBody SerieDto serieDto) {
+    public NetflixResponse<SerieDto> createSerie(@RequestBody SerieDto serieDto) throws NetflixException {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.SERIE_CREATED_SUCCESSFULLY,
                 serieService.createSerie(serieDto));
     }
@@ -63,7 +64,7 @@ public class SerieControllerImpl implements SerieController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SerieDto> updateSerie(@RequestBody SerieDto serieDto) {
+    public NetflixResponse<SerieDto> updateSerie(@RequestBody SerieDto serieDto) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.SERIE_UPDATED_SUCCESSFULLY,
                 serieService.updateSerie(serieDto));
     }
@@ -72,7 +73,7 @@ public class SerieControllerImpl implements SerieController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<SerieDto> deleteSerie(@PathVariable("id") int id) {
+    public NetflixResponse<SerieDto> deleteSerie(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.SERIE_DELETED_SUCCESSFULLY,
                 serieService.deleteSerie(id));
     }

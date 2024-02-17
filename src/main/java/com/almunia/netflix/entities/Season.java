@@ -37,6 +37,6 @@ public class Season implements Serializable {
     @JoinColumn(name="serie_id", referencedColumnName = "id")
     private Serie serie;
 
-    @OneToMany(mappedBy = "season")
+    @OneToMany(mappedBy = "season", cascade = CascadeType.REMOVE)
     private List<Chapter> chapters;
 }

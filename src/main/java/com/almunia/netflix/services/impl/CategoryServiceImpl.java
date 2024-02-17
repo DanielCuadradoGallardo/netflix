@@ -2,6 +2,9 @@ package com.almunia.netflix.services.impl;
 
 import com.almunia.netflix.dto.CategoryDto;
 import com.almunia.netflix.entities.Category;
+import com.almunia.netflix.exceptions.AlreadyExistsException;
+import com.almunia.netflix.exceptions.NetflixException;
+import com.almunia.netflix.exceptions.NotFoundException;
 import com.almunia.netflix.repositories.CategoryRepository;
 import com.almunia.netflix.services.CategoryService;
 import com.almunia.netflix.utils.constants.ExceptionConstants;
@@ -27,47 +30,47 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto getCategoryById(int id) {
-        return modelMapper.map(categoryRepository.findById(id).orElseThrow(() -> new RuntimeException(ExceptionConstants.CATEGORY_NOT_FOUND)), CategoryDto.class);
+    public CategoryDto getCategoryById(int id) throws NetflixException {
+        return modelMapper.map(categoryRepository.findById(id).orElseThrow(() -> new NotFoundException(ExceptionConstants.CATEGORY_NOT_FOUND)), CategoryDto.class);
     }
 
     @Override
-    public CategoryDto getCategoryByName(String name) {
-        return modelMapper.map(categoryRepository.findCategoryByName(name).orElseThrow(() -> new RuntimeException(ExceptionConstants.CATEGORY_NOT_FOUND)), CategoryDto.class);
+    public CategoryDto getCategoryByName(String name) throws NetflixException {
+        return modelMapper.map(categoryRepository.findCategoryByName(name).orElseThrow(() -> new NotFoundException(ExceptionConstants.CATEGORY_NOT_FOUND)), CategoryDto.class);
     }
 
     @Override
-    public CategoryDto createCategory(CategoryDto categoryDto) {
+    public CategoryDto createCategory(CategoryDto categoryDto) throws NetflixException {
         Category category = new Category(0, categoryDto.getName(), null);
         if (categoryRepository.findCategoryByName(category.getName()).isPresent()) {
-            throw new RuntimeException(ExceptionConstants.CATEGORY_ALREADY_EXISTS);
+            throw new AlreadyExistsException(ExceptionConstants.CATEGORY_ALREADY_EXISTS);
         } else {
             return modelMapper.map(categoryRepository.save(category), CategoryDto.class);
         }
     }
 
     @Override
-    public CategoryDto updateCategory(CategoryDto categoryDto) {
+    public CategoryDto updateCategory(CategoryDto categoryDto) throws NetflixException {
         Category category = new Category(categoryDto.getId(), categoryDto.getName(), null);
         if(categoryRepository.findCategoryById(category.getId()).isPresent()){
             if (categoryRepository.findCategoryByName(category.getName()).isPresent()) {
-                throw new RuntimeException(ExceptionConstants.CATEGORY_ALREADY_EXISTS);
+                throw new AlreadyExistsException(ExceptionConstants.CATEGORY_ALREADY_EXISTS);
             } else {
                 return modelMapper.map(categoryRepository.save(category), CategoryDto.class);
             }
         }else{
-            throw new RuntimeException(ExceptionConstants.CATEGORY_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.CATEGORY_NOT_FOUND);
         }
     }
 
     @Override
-    public CategoryDto deleteCategory(int id) {
+    public CategoryDto deleteCategory(int id) throws NetflixException {
         Category category = categoryRepository.findCategoryById(id).orElse(null);
         if(category != null){
             categoryRepository.delete(category);
             return modelMapper.map(category, CategoryDto.class);
         }else{
-            throw new RuntimeException(ExceptionConstants.CATEGORY_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.CATEGORY_NOT_FOUND);
         }
     }
 }

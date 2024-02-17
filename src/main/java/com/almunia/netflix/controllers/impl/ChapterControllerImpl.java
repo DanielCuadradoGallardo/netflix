@@ -2,6 +2,7 @@ package com.almunia.netflix.controllers.impl;
 
 import com.almunia.netflix.controllers.ChapterController;
 import com.almunia.netflix.dto.ChapterDto;
+import com.almunia.netflix.exceptions.NetflixException;
 import com.almunia.netflix.response.NetflixResponse;
 import com.almunia.netflix.services.ChapterService;
 import com.almunia.netflix.utils.constants.CommonConstants;
@@ -37,7 +38,7 @@ public class ChapterControllerImpl implements ChapterController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<ChapterDto> getChapterById(@PathVariable("id") int id) {
+    public NetflixResponse<ChapterDto> getChapterById(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
                 chapterService.getChapterById(id));
     }
@@ -46,7 +47,7 @@ public class ChapterControllerImpl implements ChapterController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<ChapterDto> createChapter(@RequestBody ChapterDto chapterDto) {
+    public NetflixResponse<ChapterDto> createChapter(@RequestBody ChapterDto chapterDto) throws NetflixException {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.CHAPTER_CREATED_SUCCESSFULLY,
                 chapterService.createChapter(chapterDto));
     }
@@ -55,7 +56,7 @@ public class ChapterControllerImpl implements ChapterController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<ChapterDto> updateChapter(@RequestBody ChapterDto chapterDto) {
+    public NetflixResponse<ChapterDto> updateChapter(@RequestBody ChapterDto chapterDto) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.CHAPTER_UPDATED_SUCCESSFULLY,
                 chapterService.updateChapter(chapterDto));
     }
@@ -64,7 +65,7 @@ public class ChapterControllerImpl implements ChapterController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<ChapterDto> deleteChapter(@PathVariable("id") int id) {
+    public NetflixResponse<ChapterDto> deleteChapter(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.CHAPTER_DELETED_SUCCESSFULLY,
                 chapterService.deleteChapter(id));
     }

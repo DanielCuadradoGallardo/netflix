@@ -38,7 +38,7 @@ public class ActorControllerImpl implements ActorController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
     @GetMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<ActorDto> getActorById(@PathVariable("id") int id) {
+    public NetflixResponse<ActorDto> getActorById(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.OK,
                 actorService.getActorById(id));
     }
@@ -47,7 +47,7 @@ public class ActorControllerImpl implements ActorController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<ActorDto> createActor(@RequestBody ActorDto actorDto) {
+    public NetflixResponse<ActorDto> createActor(@RequestBody ActorDto actorDto) throws NetflixException {
         return new NetflixResponse<>(201, String.valueOf(HttpStatus.CREATED), CommonConstants.ACTOR_CREATED_SUCCESSFULLY,
                 actorService.createActor(actorDto));
     }
@@ -65,7 +65,7 @@ public class ActorControllerImpl implements ActorController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = RestConstants.RESOURCE_ID, produces = MediaType.APPLICATION_JSON_VALUE)
-    public NetflixResponse<ActorDto> deleteActor(@PathVariable("id") int id) {
+    public NetflixResponse<ActorDto> deleteActor(@PathVariable("id") int id) throws NetflixException {
         return new NetflixResponse<>(200, String.valueOf(HttpStatus.OK), CommonConstants.ACTOR_DELETED_SUCCESSFULLY,
                 actorService.deleteActor(id));
     }

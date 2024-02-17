@@ -2,6 +2,9 @@ package com.almunia.netflix.services.impl;
 
 import com.almunia.netflix.dto.AwardDto;
 import com.almunia.netflix.entities.Award;
+import com.almunia.netflix.exceptions.AlreadyExistsException;
+import com.almunia.netflix.exceptions.NetflixException;
+import com.almunia.netflix.exceptions.NotFoundException;
 import com.almunia.netflix.repositories.AwardRepository;
 import com.almunia.netflix.services.AwardService;
 import com.almunia.netflix.utils.constants.ExceptionConstants;
@@ -27,47 +30,47 @@ public class AwardServiceImpl implements AwardService {
     }
 
     @Override
-    public AwardDto getAwardById(int id) {
-        return modelMapper.map(awardRepository.findById(id).orElseThrow(() -> new RuntimeException(ExceptionConstants.AWARD_NOT_FOUND)), AwardDto.class);
+    public AwardDto getAwardById(int id) throws NetflixException {
+        return modelMapper.map(awardRepository.findById(id).orElseThrow(() -> new NotFoundException(ExceptionConstants.AWARD_NOT_FOUND)), AwardDto.class);
     }
 
     @Override
-    public AwardDto getAwardByName(String name) {
-        return modelMapper.map(awardRepository.findAwardByName(name).orElseThrow(() -> new RuntimeException(ExceptionConstants.AWARD_NOT_FOUND)), AwardDto.class);
+    public AwardDto getAwardByName(String name) throws NetflixException {
+        return modelMapper.map(awardRepository.findAwardByName(name).orElseThrow(() -> new NotFoundException(ExceptionConstants.AWARD_NOT_FOUND)), AwardDto.class);
     }
 
     @Override
-    public AwardDto createAward(AwardDto awardDto) {
+    public AwardDto createAward(AwardDto awardDto) throws NetflixException {
         Award award = new Award(0, awardDto.getName(), null);
         if (awardRepository.findAwardByName(award.getName()).isPresent()) {
-            throw new RuntimeException(ExceptionConstants.AWARD_ALREADY_EXISTS);
+            throw new AlreadyExistsException(ExceptionConstants.AWARD_ALREADY_EXISTS);
         } else {
             return modelMapper.map(awardRepository.save(award), AwardDto.class);
         }
     }
 
     @Override
-    public AwardDto updateAward(AwardDto awardDto) {
+    public AwardDto updateAward(AwardDto awardDto) throws NetflixException {
         Award award = new Award(awardDto.getId(), awardDto.getName(), null);
         if(awardRepository.findAwardById(award.getId()).isPresent()){
             if (awardRepository.findAwardByName(award.getName()).isPresent()) {
-                throw new RuntimeException(ExceptionConstants.AWARD_ALREADY_EXISTS);
+                throw new AlreadyExistsException(ExceptionConstants.AWARD_ALREADY_EXISTS);
             } else {
                 return modelMapper.map(awardRepository.save(award), AwardDto.class);
             }
         }else{
-            throw new RuntimeException(ExceptionConstants.AWARD_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.AWARD_NOT_FOUND);
         }
     }
 
     @Override
-    public AwardDto deleteAward(int id) {
+    public AwardDto deleteAward(int id) throws NetflixException {
         Award award = awardRepository.findAwardById(id).orElse(null);
         if(award != null){
             awardRepository.delete(award);
             return modelMapper.map(award, AwardDto.class);
         }else{
-            throw new RuntimeException(ExceptionConstants.AWARD_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.AWARD_NOT_FOUND);
         }
     }
 }

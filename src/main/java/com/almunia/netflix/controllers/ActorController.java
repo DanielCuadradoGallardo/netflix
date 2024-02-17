@@ -16,11 +16,11 @@ public interface ActorController {
 
     NetflixResponse<List<ActorDto>> getAllActors();
 
-    NetflixResponse<ActorDto> getActorById(int id);
+    NetflixResponse<ActorDto> getActorById(int id) throws NetflixException;
 
-    NetflixResponse<ActorDto> createActor(ActorDto actorDto);
+    NetflixResponse<ActorDto> createActor(ActorDto actorDto) throws NetflixException;
 
     NetflixResponse<ActorDto> updateActor(ActorDto actorDto) throws NetflixException;
 
-    NetflixResponse<ActorDto> deleteActor(int id);
+    NetflixResponse<ActorDto> deleteActor(int id) throws NetflixException;
 }

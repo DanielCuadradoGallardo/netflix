@@ -4,6 +4,9 @@ import com.almunia.netflix.dto.SeasonDto;
 import com.almunia.netflix.dto.SerieDto;
 import com.almunia.netflix.entities.Season;
 import com.almunia.netflix.entities.Serie;
+import com.almunia.netflix.exceptions.AlreadyExistsException;
+import com.almunia.netflix.exceptions.NetflixException;
+import com.almunia.netflix.exceptions.NotFoundException;
 import com.almunia.netflix.repositories.SeasonRepository;
 import com.almunia.netflix.services.SeasonService;
 import com.almunia.netflix.services.SerieService;
@@ -33,12 +36,12 @@ public class SeasonServiceImpl implements SeasonService {
     }
 
     @Override
-    public SeasonDto getSeasonById(int id) {
-        return modelMapper.map(seasonRepository.findById(id).orElse(null), SeasonDto.class);
+    public SeasonDto getSeasonById(int id) throws NetflixException {
+        return modelMapper.map(seasonRepository.findById(id).orElseThrow(() -> new NotFoundException(ExceptionConstants.SEASON_NOT_FOUND)), SeasonDto.class);
     }
 
     @Override
-    public SeasonDto createSeason(SeasonDto seasonDto) {
+    public SeasonDto createSeason(SeasonDto seasonDto) throws NetflixException {
         SerieDto serieDto = serieService.getSerieById(seasonDto.getSerie().getId());
 
         Serie serie = new Serie(serieDto.getId(), serieDto.getName(), serieDto.getDescription(), serieDto.getRecommended_age(), null, null);
@@ -46,27 +49,14 @@ public class SeasonServiceImpl implements SeasonService {
         Season season = new Season(seasonDto.getId(), seasonDto.getTitle(), seasonDto.getDescription(), serie, null);
 
         if (seasonRepository.findSeasonBySerieNameAndTitle(season.getSerie().getName(), season.getTitle()).isPresent()) {
-            throw new RuntimeException(ExceptionConstants.SEASON_ALREADY_EXISTS);
+            throw new AlreadyExistsException(ExceptionConstants.SEASON_ALREADY_EXISTS);
         } else {
             return modelMapper.map(seasonRepository.save(season), SeasonDto.class);
         }
     }
 
     @Override
-    public SeasonDto deleteSeason(int id) {
-        Season season = seasonRepository.findSeasonById(id).orElse(null);
-        if(season != null){
-            season.setSerie(null);
-            season.setChapters(null);
-            seasonRepository.delete(season);
-            return modelMapper.map(season, SeasonDto.class);
-        }else{
-            throw new RuntimeException(ExceptionConstants.SEASON_NOT_FOUND);
-        }
-    }
-
-    @Override
-    public SeasonDto updateSeason(SeasonDto seasonDto) {
+    public SeasonDto updateSeason(SeasonDto seasonDto) throws NetflixException {
         Season season = new Season(seasonDto.getId(), seasonDto.getTitle(), seasonDto.getDescription(), null, null);
         Season seasonToUpdate = seasonRepository.findSeasonById(season.getId()).orElse(null);
 
@@ -74,7 +64,7 @@ public class SeasonServiceImpl implements SeasonService {
             season.setSerie(seasonToUpdate.getSerie());
 
             if (seasonRepository.findSeasonBySerie_idAndTitle(season.getSerie().getId(), season.getTitle()).isPresent()) {
-                throw new RuntimeException(ExceptionConstants.SEASON_ALREADY_EXISTS);
+                throw new AlreadyExistsException(ExceptionConstants.SEASON_ALREADY_EXISTS);
             } else {
                 if (season.getTitle() == null || season.getTitle().isEmpty()) {
                     season.setTitle(seasonToUpdate.getTitle());
@@ -89,7 +79,20 @@ public class SeasonServiceImpl implements SeasonService {
                 return modelMapper.map(savedSeason, SeasonDto.class);
             }
         }else{
-            throw new RuntimeException(ExceptionConstants.SEASON_NOT_FOUND);
+            throw new NotFoundException(ExceptionConstants.SEASON_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public SeasonDto deleteSeason(int id) throws NetflixException {
+        Season season = seasonRepository.findSeasonById(id).orElse(null);
+        if(season != null){
+            Serie serie = season.getSerie();
+            seasonRepository.delete(season);
+            serie.getSeasons().remove(season);
+            return modelMapper.map(season, SeasonDto.class);
+        }else{
+            throw new NotFoundException(ExceptionConstants.SEASON_NOT_FOUND);
         }
     }
 

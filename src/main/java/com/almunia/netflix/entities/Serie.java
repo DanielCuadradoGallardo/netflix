@@ -44,6 +44,6 @@ public class Serie implements Serializable {
     )
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "serie")
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.REMOVE)
     private List<Season> seasons;
 }
