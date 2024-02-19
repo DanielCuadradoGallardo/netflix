@@ -2,7 +2,6 @@ package com.almunia.netflix.services;
 
 import com.almunia.netflix.dto.ActorDto;
 import com.almunia.netflix.exceptions.NetflixException;
-import com.almunia.netflix.exceptions.NotFoundException;
 
 import java.util.List;
 

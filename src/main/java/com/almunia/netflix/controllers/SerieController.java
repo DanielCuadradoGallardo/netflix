@@ -7,6 +7,7 @@ import com.almunia.netflix.response.NetflixResponse;
 import java.util.List;
 
 public interface SerieController {
+
     NetflixResponse<List<SerieDto>> getAllSeries();
 
     NetflixResponse<SerieDto> getSerieById(int id) throws NetflixException;

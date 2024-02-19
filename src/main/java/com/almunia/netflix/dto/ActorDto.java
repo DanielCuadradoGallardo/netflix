@@ -22,7 +22,6 @@ public class ActorDto implements Serializable {
 
     private int id;
     private String name;
-    private String surname;
     private LocalDate birth_date;
     private String birth_place;
     private String biography;
